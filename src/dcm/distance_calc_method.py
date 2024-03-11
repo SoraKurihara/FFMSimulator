@@ -66,8 +66,11 @@ def Linfnorm(Map):
         print(f"\r{count}", end="")
         starting_points = SFF == count
         increment = get_outer(starting_points, True)
+        if len(SFF[increment & (SFF == -1)]) == 0:
+            break
         SFF[increment & (SFF == -1)] = count + 1
         count += 1
+    SFF[SFF == 0] = -1
 
     print()
     SFF[SFF == -2] = -1

@@ -40,11 +40,17 @@ def save_sqlite(path, pos):
     step_id = c.lastrowid
 
     # 位置データを追加
-    for y, x in zip(pos[:, 0], pos[:, 1]):
-        c.execute(
-            "INSERT INTO positions (step_id, x, y) VALUES (?, ?, ?)",
-            (step_id, int(x), int(y)),
-        )
+    # for y, x in zip(pos[:, 0], pos[:, 1]):
+    #     c.execute(
+    #         "INSERT INTO positions (step_id, x, y) VALUES (?, ?, ?)",
+    #         (step_id, int(x), int(y)),
+    #     )
+    insert_data = [
+        (step_id, int(x), int(y)) for y, x in zip(pos[:, 0], pos[:, 1])
+    ]
+    c.executemany(
+        "INSERT INTO positions (step_id, x, y) VALUES (?, ?, ?)", insert_data
+    )
 
     conn.commit()
     conn.close()
